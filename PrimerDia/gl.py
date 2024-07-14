@@ -141,11 +141,13 @@ class Render(object):
         a = 0
         cx = 0
         cy = 0
+
         for i in range(len(coords) - 1):
             x0, y0 = coords[i]
             x1, y1 = coords[i + 1]
-
-            temp = x0 * y1 - x1 * y0         
+            
+            temp = x0 * y1 - x1 * y0
+            
             a += temp
             cx += (x0 + x1) * temp
             cy += (y0 + y1) * temp
@@ -156,6 +158,24 @@ class Render(object):
 
         return int(cx), int(cy)
 
-    
+    def boundaryfill(self, x, y, fillColor = None, boundaryColor = None):
+        stack = [(x, y)]
+        while stack:
+            x, y = stack.pop()
+            if (0 <= x < self.width) and (0 <= y < self.height):
+                color = [int(i * 255) for i in (boundaryColor or self.currColor)]
+                if self.frameBuffer[x][y] == color:
+                    continue
+                self.glPoint(x, y, fillColor)
+                stack.append((x + 1, y))
+                stack.append((x - 1, y))
+                stack.append((x, y + 1))
+                stack.append((x, y - 1))
 
+        #Alcanzo los limites de recursividad jajaja
+        #self.boundaryfill(x + 1, y, fillColor, boundaryColor)
+        #self.boundaryfill(x - 1, y, fillColor, boundaryColor)
+        #self.boundaryfill(x, y + 1, fillColor, boundaryColor)
+        #self.boundaryfill(x, y - 1, fillColor, boundaryColor)
+        
         
