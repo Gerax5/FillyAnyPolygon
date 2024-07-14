@@ -18,6 +18,10 @@ poligono1 = [(165, 380), (185, 360), (180, 330), (207, 345), (233, 330), (230, 3
 def poligono(listaPoligono):
     for i in range(len(listaPoligono)):
         rend.glLine(listaPoligono[i], listaPoligono[(i + 1) % len(listaPoligono)])
+    poligonoTemp = []
+    for i in poligono1:
+        poligonoTemp.append(i)
+    print(rend.centerPolygon(poligonoTemp))
 
 isRunning = True
 while isRunning:

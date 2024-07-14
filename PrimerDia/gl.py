@@ -133,3 +133,29 @@ class Render(object):
                                 color[0]])
                     
                     file.write(color)
+
+    def centerPolygon(self, coords):
+        #Suponiendo que es cerrado
+        #Formula: (1/6A) (xi + xi+1)(xiyi+1 - xi+1yi)
+        coords.append(coords[0])
+        a = 0
+        cx = 0
+        cy = 0
+        for i in range(len(coords) - 1):
+            x0, y0 = coords[i]
+            x1, y1 = coords[i + 1]
+
+            temp = x0 * y1 - x1 * y0         
+            a += temp
+            cx += (x0 + x1) * temp
+            cy += (y0 + y1) * temp
+
+        a *= 0.5
+        cx //= (6 * a)
+        cy //= (6 * a)
+
+        return int(cx), int(cy)
+
+    
+
+        
